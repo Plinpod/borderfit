@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Tray, fitted: the corner brackets with the fitted window filled in green. -->
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#4F46E5"/>
+  <g transform="translate(4 4) scale(0.75)">
+    <path d="M2.5 12V6.5H10M22 6.5h7.5V12M2.5 20v5.5H10M22 25.5h7.5V20" stroke="#FFFFFF" stroke-width="3.4" stroke-linejoin="round"/>
+    <rect x="8" y="11.5" width="16" height="9" rx="1.5" fill="#34D399"/>
+  </g>
+</svg>

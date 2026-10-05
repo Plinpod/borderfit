@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <!-- BorderFit app icon: the compact mark (corner brackets around a fitted 16:9 window) on an indigo tile. -->
+  <rect x="32" y="32" width="960" height="960" rx="216" fill="#4F46E5"/>
+  <g transform="translate(160 160) scale(22)">
+    <path d="M2.5 12V6.5H10M22 6.5h7.5V12M2.5 20v5.5H10M22 25.5h7.5V20" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="8" y="11.5" width="16" height="9" rx="1.5" fill="#FFFFFF"/>
+  </g>
+</svg>

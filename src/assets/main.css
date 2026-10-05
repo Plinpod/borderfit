@@ -1,0 +1,162 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Light values by default, dark under prefers-color-scheme, both as
+ * CSS variables exposed to Tailwind through `@theme inline`, so templates use `bg-surface`,
+ * `text-muted`, `border-line` without any `dark:` prefixes.
+ */
+:root {
+    color-scheme: light dark;
+    --bf-canvas: #f3f3f5;
+    --bf-surface: #ffffff;
+    --bf-surface-2: #f7f7f9;
+    --bf-line: #e2e3e7;
+    --bf-fg: #1b1c1f;
+    --bf-muted: #66686f;
+    --bf-accent: #4f46e5;
+    --bf-accent-fg: #ffffff;
+    --bf-ok: #059669;
+    --bf-warn: #d97706;
+    --bf-danger: #dc2626;
+    --bf-band: #9a9ca3;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bf-canvas: #111214;
+        --bf-surface: #1a1b1e;
+        --bf-surface-2: #232529;
+        --bf-line: #2e3035;
+        --bf-fg: #ececee;
+        --bf-muted: #9a9ca3;
+        --bf-accent: #818cf8;
+        --bf-accent-fg: #111214;
+        --bf-ok: #34d399;
+        --bf-warn: #fbbf24;
+        --bf-danger: #f87171;
+        --bf-band: #6b6e76;
+    }
+}
+
+@theme inline {
+    --color-canvas: var(--bf-canvas);
+    --color-surface: var(--bf-surface);
+    --color-surface-2: var(--bf-surface-2);
+    --color-line: var(--bf-line);
+    --color-fg: var(--bf-fg);
+    --color-muted: var(--bf-muted);
+    --color-accent: var(--bf-accent);
+    --color-accent-fg: var(--bf-accent-fg);
+    --color-ok: var(--bf-ok);
+    --color-warn: var(--bf-warn);
+    --color-danger: var(--bf-danger);
+    --color-band: var(--bf-band);
+
+    --font-sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+    --radius-control: 6px;
+    --radius-card: 8px;
+}
+
+@layer base {
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        margin: 0;
+        background: var(--bf-canvas);
+        color: var(--bf-fg);
+        font-family: var(--font-sans);
+        font-size: 13px;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+        /* A desktop tool, not a document: no stray text selection or I-beam cursors. */
+        user-select: none;
+        cursor: default;
+        overflow-y: auto;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--bf-accent);
+        outline-offset: 2px;
+    }
+
+    button {
+        cursor: default;
+    }
+
+    input {
+        user-select: text;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--bf-line);
+        border-radius: 4px;
+    }
+}
+
+@layer components {
+    /* Small uppercase section label (not `overline`: that is Tailwind's text-decoration utility). */
+    .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--bf-muted);
+    }
+
+    .link {
+        color: var(--bf-muted);
+        transition: color 100ms;
+    }
+
+    .link:hover {
+        color: var(--bf-accent);
+    }
+
+    /* Button used for the single action in the status card. */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: var(--radius-control);
+        border: 1px solid var(--bf-line);
+        background: var(--bf-surface-2);
+        font-weight: 600;
+        white-space: nowrap;
+        transition:
+            background-color 100ms,
+            border-color 100ms;
+    }
+
+    .btn:hover {
+        border-color: var(--bf-muted);
+    }
+
+    .btn-primary {
+        background: var(--bf-accent);
+        border-color: var(--bf-accent);
+        color: var(--bf-accent-fg);
+    }
+
+    .btn-primary:hover {
+        border-color: var(--bf-accent);
+        filter: brightness(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0ms !important;
+        animation-duration: 0ms !important;
+    }
+}

@@ -1,0 +1,75 @@
+[package]
+name = "borderfit"
+version = "0.1.0"
+description = "Fit any game window borderless to a region of your monitor, hide the taskbar, restore exactly."
+authors = ["Ironweb"]
+license = "MIT"
+repository = "https://github.com/Plinpod/borderfit"
+edition = "2021"
+rust-version = "1.85"
+publish = false
+
+[lib]
+# The `_lib` suffix keeps the lib name distinct from the bin name (cargo#8519, PDB clash on Windows).
+name = "borderfit_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2.11", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-log = "2"
+log = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(windows)'.dependencies]
+# Pinned: the dev branch renames keys; ALLOWED_KEYS in hotkey.rs is transcribed from 0.8.0.
+global-hotkey = "=0.8.0"
+# 0.61 is the version tauri 2.11 (tao/wry) uses, so both share one copy.
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Accessibility",
+    "Win32_UI_Shell",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_Graphics_Dwm",
+    "Win32_Graphics_Gdi",
+    "Win32_System_Threading",
+    "Win32_System_Registry",
+    "Win32_System_Com",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+] }
+
+[target.'cfg(windows)'.dev-dependencies]
+# Integration tests read the work area directly (SystemParametersInfoW).
+windows = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+undocumented_unsafe_blocks = "warn"
+semicolon_if_nothing_returned = "warn"
+redundant_closure_for_method_calls = "warn"
+uninlined_format_args = "warn"
+manual_let_else = "warn"
+
+[profile.dev]
+panic = "unwind"
+
+# See https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+# Unwind (not abort) so Drop and the panic hook can restore the window and taskbar.
+panic = "unwind"
+strip = true

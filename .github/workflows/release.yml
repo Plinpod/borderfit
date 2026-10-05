@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+# Third-party Actions are pinned to commit SHAs (dependabot bumps them), because this job can
+# write releases. `id-token` and `attestations` let it sign the build provenance below.
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable
+        with:
+          toolchain: stable
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          workspaces: src-tauri
+      # A tag is cut from a green main, but never ship a build whose tests fail.
+      - run: pnpm lint
+      - run: cargo test
+        working-directory: src-tauri
+
+      - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
+        id: tauri
+        with:
+          tagName: v__VERSION__
+          releaseName: BorderFit v__VERSION__
+          releaseDraft: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generateReleaseNotes: true
+          args: --target x86_64-pc-windows-msvc --bundles nsis
+
+      # Portable exe, a version-free installer name for the permanent
+      # releases/latest/download/BorderFit_x64-setup.exe link, and checksums.
+      - name: Upload portable exe, stable installer name and SHA256SUMS
+        shell: pwsh
+        run: |
+          $version = '${{ steps.tauri.outputs.appVersion }}'
+          $release = 'src-tauri/target/x86_64-pc-windows-msvc/release'
+          $setup = Get-ChildItem "$release/bundle/nsis/*-setup.exe" | Select-Object -First 1
+          New-Item -ItemType Directory -Force out | Out-Null
+          Copy-Item "$release/BorderFit.exe" "out/BorderFit-$version-portable.exe"
+          Copy-Item $setup.FullName "out/$($setup.Name)"
+          Copy-Item $setup.FullName "out/BorderFit_x64-setup.exe"
+          Push-Location out
+          Get-ChildItem *.exe | ForEach-Object {
+            "{0}  {1}" -f (Get-FileHash $_.Name -Algorithm SHA256).Hash.ToLower(), $_.Name
+          } | Set-Content -Encoding ascii SHA256SUMS.txt
+          Pop-Location
+          gh release upload "v$version" out/BorderFit-$version-portable.exe out/BorderFit_x64-setup.exe out/SHA256SUMS.txt --clobber
+
+      # Signed build provenance: `gh attestation verify <file> --repo Plinpod/borderfit` shows a
+      # download was built by this workflow from this repository.
+      - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
+        with:
+          subject-path: out/*.exe

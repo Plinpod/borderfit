@@ -1,0 +1,58 @@
+name: Bug report
+description: Something in BorderFit did not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The details below make most problems reproducible.
+        Logs live in `%LOCALAPPDATA%\app.borderfit\logs` (BorderFit → Diagnostics → Open logs folder).
+  - type: input
+    id: version
+    attributes:
+      label: BorderFit version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Install method
+      options: [Installer, Portable exe, Built from source]
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and build
+      placeholder: 24H2 (26100.4061)
+    validations:
+      required: true
+  - type: textarea
+    id: monitors
+    attributes:
+      label: Monitor layout and scaling
+      placeholder: 5120x1440 at 100% (primary) + 1920x1080 at 150% on the left
+  - type: input
+    id: game
+    attributes:
+      label: Game and its display mode
+      placeholder: Elden Ring, windowed 2560x1440
+  - type: input
+    id: hotkey
+    attributes:
+      label: Hotkey
+      placeholder: Ctrl+Alt+B
+  - type: textarea
+    id: steps
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log excerpt
+      description: >-
+        The last lines of borderfit.log, or "Copy diagnostics" from the Diagnostics row. Logs
+        include window titles and file paths (with your Windows user name); check them before
+        posting.
+      render: text

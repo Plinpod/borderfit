@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /src-tauri
+    schedule:
+      interval: monthly
+    ignore:
+      # global-hotkey is pinned (=0.8.0, hotkey.rs transcribes its key list); windows must stay on
+      # the version tauri uses so both share one copy. See src-tauri/Cargo.toml.
+      - dependency-name: global-hotkey
+      - dependency-name: windows
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

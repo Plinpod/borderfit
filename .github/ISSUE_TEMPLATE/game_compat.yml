@@ -1,0 +1,43 @@
+name: Game compatibility report
+description: Tell us how BorderFit works with a specific game
+labels: [compat]
+body:
+  - type: input
+    id: game
+    attributes:
+      label: Game (and store/launcher)
+      placeholder: Elden Ring (Steam)
+    validations:
+      required: true
+  - type: input
+    id: engine
+    attributes:
+      label: Engine, if you know it
+      placeholder: Unity / Unreal / Source / custom
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Works (fits and restores exactly)
+        - Fits, but "size not accepted"
+        - Needs admin (game runs elevated)
+        - Hotkey ignored in game (tray "Fit active window" works)
+        - Does not work
+    validations:
+      required: true
+  - type: input
+    id: mode
+    attributes:
+      label: Game display mode and resolution
+      placeholder: Windowed 2560x1440
+  - type: input
+    id: setup
+    attributes:
+      label: BorderFit version, Windows build, monitor layout
+      placeholder: 0.1.0, 24H2 (26100.4061), 5120x1440 at 100%
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything that helped (e.g. set the size in the game first) and a log excerpt if it failed.

@@ -1,0 +1,58 @@
+{
+    "$schema": "https://schema.tauri.app/config/2",
+    "productName": "BorderFit",
+    "mainBinaryName": "BorderFit",
+    "identifier": "app.borderfit",
+    "build": {
+        "beforeDevCommand": "pnpm dev",
+        "devUrl": "http://localhost:1420",
+        "beforeBuildCommand": "pnpm build",
+        "frontendDist": "../dist"
+    },
+    "app": {
+        "windows": [
+            {
+                "label": "main",
+                "title": "BorderFit",
+                "width": 460,
+                "height": 640,
+                "resizable": false,
+                "maximizable": false,
+                "center": true,
+                "visible": false,
+                "devtools": false,
+                "dragDropEnabled": true
+            }
+        ],
+        "security": {
+            "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost; style-src 'self' 'unsafe-inline'; img-src 'self' data:",
+            "devCsp": "default-src 'self'; connect-src ipc: http://ipc.localhost ws://localhost:1420; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+        }
+    },
+    "bundle": {
+        "active": true,
+        "targets": ["nsis"],
+        "publisher": "Ironweb",
+        "copyright": "Copyright (c) 2026 Ironweb",
+        "category": "Utility",
+        "shortDescription": "Fit any game window borderless to a region of your monitor.",
+        "longDescription": "BorderFit fits the active game window borderless to a region of your monitor (for example 2560x1440 centered on a 5120x1440 ultrawide), hides the taskbar while it is fitted and restores everything exactly with one hotkey.",
+        "homepage": "https://borderfit.app",
+        "license": "MIT",
+        "createUpdaterArtifacts": false,
+        "icon": [
+            "icons/32x32.png",
+            "icons/128x128.png",
+            "icons/128x128@2x.png",
+            "icons/icon.icns",
+            "icons/icon.ico"
+        ],
+        "windows": {
+            "webviewInstallMode": { "type": "downloadBootstrapper" },
+            "nsis": {
+                "installMode": "currentUser",
+                "installerIcon": "icons/icon.ico"
+            }
+        }
+    }
+}

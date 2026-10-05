@@ -1,0 +1,48 @@
+{
+    "name": "borderfit",
+    "private": true,
+    "version": "0.0.0",
+    "license": "MIT",
+    "type": "module",
+    "packageManager": "pnpm@10.32.1",
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "postinstall": "node -e \"require('fs').mkdirSync('dist',{recursive:true})\"",
+        "dev": "vite",
+        "build": "vue-tsc --noEmit && vite build",
+        "tauri": "tauri",
+        "lint": "oxlint && prettier --check .",
+        "format": "prettier --write .",
+        "typecheck": "vue-tsc --noEmit",
+        "test": "cargo test --manifest-path src-tauri/Cargo.toml",
+        "test:win": "scripts/xwin.sh test --tests",
+        "clippy:win": "scripts/xwin.sh clippy --all-targets -- -D warnings",
+        "check": "pnpm lint && pnpm build && pnpm test && cargo fmt --manifest-path src-tauri/Cargo.toml --check && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
+        "xbuild": "scripts/xbuild.sh",
+        "icons": "scripts/icons.sh"
+    },
+    "dependencies": {
+        "@tauri-apps/api": "^2",
+        "vue": "^3.5.13"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.3.3",
+        "@tauri-apps/cli": "^2",
+        "@types/node": "^22.20.4",
+        "@vitejs/plugin-vue": "^6.0.7",
+        "oxlint": "^1.85.0",
+        "prettier": "^3.9.8",
+        "prettier-plugin-tailwindcss": "^0.8.1",
+        "tailwindcss": "^4.3.3",
+        "typescript": "~6.0.3",
+        "vite": "^8.0.16",
+        "vue-tsc": "^3.3.5"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "esbuild"
+        ]
+    }
+}
