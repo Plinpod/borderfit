@@ -30,7 +30,7 @@
     "devDependencies": {
         "@tailwindcss/vite": "^4.3.3",
         "@tauri-apps/cli": "^2",
-        "@types/node": "^22.20.4",
+        "@types/node": "^26.6.4",
         "@vitejs/plugin-vue": "^6.0.7",
         "oxlint": "^1.85.0",
         "prettier": "^3.9.8",
