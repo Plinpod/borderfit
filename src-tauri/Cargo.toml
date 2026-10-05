@@ -1,6 +1,6 @@
 [package]
 name = "borderfit"
-version = "0.1.0"
+version = "0.1.0-beta.1"
 description = "Fit any game window borderless to a region of your monitor, hide the taskbar, restore exactly."
 authors = ["Ironweb"]
 license = "MIT"
