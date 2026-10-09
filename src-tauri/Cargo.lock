@@ -311,7 +311,7 @@ dependencies = [
 
 [[package]]
 name = "borderfit"
-version = "0.1.0-beta.1"
+version = "0.1.0-beta.2"
 dependencies = [
  "global-hotkey",
  "log",
