@@ -83,7 +83,7 @@ idempotent and tolerates a missing window; the engine thread is the only writer 
    with `--minimized`; a 150% secondary display; Explorer restart while fitted; Win key with the
    taskbar hidden.
 3. `scripts/release.sh X.Y.Z` (bumps `src-tauri/Cargo.toml`, the single version source; commits; tags; pushes).
-4. Wait for `release.yml`; check the draft has the setup exe, the portable exe, `BorderFit_x64-setup.exe`
-   and `SHA256SUMS.txt`.
+4. Wait for `release.yml`; check the draft has the setup exe, the portable exe, `BorderFit_x64-setup.exe`,
+   `BorderFit_x64-portable.exe` and `SHA256SUMS.txt`.
 5. Install, run and uninstall in a clean VM (Windows Sandbox or a throwaway VM, networking on for the
    WebView2 bootstrapper). Then publish the draft.
